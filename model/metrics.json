@@ -1,0 +1,90 @@
+{
+  "n_rows": 1470,
+  "n_features": 19,
+  "n_train": 1029,
+  "n_test": 441,
+  "class_no": 1233,
+  "class_yes": 237,
+  "A": {
+    "depth": 16,
+    "leaves": 148,
+    "acc_train": 1.0,
+    "acc_test": 0.7551,
+    "auc": 0.5638,
+    "precision_resign": 0.2597,
+    "recall_resign": 0.2817,
+    "f1_resign": 0.2703,
+    "cm": [
+      [
+        313,
+        57
+      ],
+      [
+        51,
+        20
+      ]
+    ]
+  },
+  "B": {
+    "depth": 4,
+    "leaves": 16,
+    "acc_train": 0.8086,
+    "acc_test": 0.771,
+    "auc": 0.7152,
+    "precision_resign": 0.3611,
+    "recall_resign": 0.5493,
+    "f1_resign": 0.4358,
+    "cm": [
+      [
+        301,
+        69
+      ],
+      [
+        32,
+        39
+      ]
+    ]
+  },
+  "importances": [
+    {
+      "fitur": "YearsAtCompany",
+      "nilai": 0.2768
+    },
+    {
+      "fitur": "OverTime_No",
+      "nilai": 0.1534
+    },
+    {
+      "fitur": "StockOptionLevel",
+      "nilai": 0.1232
+    },
+    {
+      "fitur": "Age",
+      "nilai": 0.1178
+    },
+    {
+      "fitur": "NumCompaniesWorked",
+      "nilai": 0.0815
+    },
+    {
+      "fitur": "WorkLifeBalance",
+      "nilai": 0.076
+    },
+    {
+      "fitur": "JobLevel",
+      "nilai": 0.0698
+    },
+    {
+      "fitur": "OverTime_Yes",
+      "nilai": 0.0444
+    },
+    {
+      "fitur": "MonthlyIncome",
+      "nilai": 0.0348
+    },
+    {
+      "fitur": "MaritalStatus_Married",
+      "nilai": 0.0126
+    }
+  ]
+}

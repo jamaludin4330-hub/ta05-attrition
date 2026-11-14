@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Tentang{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1>Tentang Proyek</h1>
+    <p class="lead">Ringkasan data, metode, dan batasan sistem.</p>
+  </div>
+</section>
+<section class="section tight">
+  <div class="container grid-2">
+    <article class="card reveal"><h3>📦 Dataset</h3><p>IBM HR Analytics Employee Attrition (Kaggle) berisi {{ m.n_rows }} karyawan. Variabel target: <code>Attrition</code> (Yes = resign, No = bertahan). Data dibagi {{ m.n_train }} latih dan {{ m.n_test }} uji dengan pembagian stratified.</p></article>
+    <article class="card reveal"><h3>🧹 Pra-pemrosesan</h3><p>Pengecekan missing values (median untuk numerik, modus untuk kategorikal), lalu fitur kategorikal (<code>OverTime</code>, <code>MaritalStatus</code>, <code>BusinessTravel</code>) diubah dengan One-Hot Encoding menjadi {{ m.n_features }} fitur.</p></article>
+    <article class="card reveal"><h3>🌳 Model</h3><p>Model A tumbuh bebas untuk menunjukkan overfitting. Model B di-pruning dengan pengaturan hiperparameter dan dipakai pada aplikasi ini, disimpan dengan Joblib.</p></article>
+    <article class="card reveal"><h3>⚠️ Batasan</h3><p>Dataset bersifat fiktif dan kelasnya tidak seimbang, jadi sebagian karyawan yang resign tidak terdeteksi. Gunakan hasil sebagai pendukung diskusi, bukan dasar tunggal keputusan terkait karyawan.</p></article>
+  </div>
+</section>
+{% endblock %}

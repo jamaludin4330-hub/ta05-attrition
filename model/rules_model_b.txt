@@ -1,0 +1,46 @@
+|--- YearsAtCompany <= 2.50
+|   |--- Age <= 39.50
+|   |   |--- StockOptionLevel <= 0.50
+|   |   |   |--- OverTime_No <= 0.50
+|   |   |   |   |--- class: 1
+|   |   |   |--- OverTime_No >  0.50
+|   |   |   |   |--- class: 1
+|   |   |--- StockOptionLevel >  0.50
+|   |   |   |--- MonthlyIncome <= 2635.00
+|   |   |   |   |--- class: 1
+|   |   |   |--- MonthlyIncome >  2635.00
+|   |   |   |   |--- class: 0
+|   |--- Age >  39.50
+|   |   |--- OverTime_Yes <= 0.50
+|   |   |   |--- DistanceFromHome <= 18.50
+|   |   |   |   |--- class: 0
+|   |   |   |--- DistanceFromHome >  18.50
+|   |   |   |   |--- class: 0
+|   |   |--- OverTime_Yes >  0.50
+|   |   |   |--- MaritalStatus_Married <= 0.50
+|   |   |   |   |--- class: 1
+|   |   |   |--- MaritalStatus_Married >  0.50
+|   |   |   |   |--- class: 0
+|--- YearsAtCompany >  2.50
+|   |--- OverTime_No <= 0.50
+|   |   |--- JobLevel <= 1.50
+|   |   |   |--- NumCompaniesWorked <= 0.50
+|   |   |   |   |--- class: 0
+|   |   |   |--- NumCompaniesWorked >  0.50
+|   |   |   |   |--- class: 1
+|   |   |--- JobLevel >  1.50
+|   |   |   |--- StockOptionLevel <= 0.50
+|   |   |   |   |--- class: 1
+|   |   |   |--- StockOptionLevel >  0.50
+|   |   |   |   |--- class: 0
+|   |--- OverTime_No >  0.50
+|   |   |--- WorkLifeBalance <= 1.50
+|   |   |   |--- StockOptionLevel <= 0.50
+|   |   |   |   |--- class: 1
+|   |   |   |--- StockOptionLevel >  0.50
+|   |   |   |   |--- class: 0
+|   |   |--- WorkLifeBalance >  1.50
+|   |   |   |--- NumCompaniesWorked <= 3.50
+|   |   |   |   |--- class: 0
+|   |   |   |--- NumCompaniesWorked >  3.50
+|   |   |   |   |--- class: 0

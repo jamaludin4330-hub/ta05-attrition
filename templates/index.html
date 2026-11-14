@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Beranda{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <span class="pill">Machine Learning &middot; Decision Tree</span>
+      <h1>Prediksi Risiko <span class="grad">Karyawan Resign</span> dengan Pohon Keputusan</h1>
+      <p class="lead">Masukkan data karyawan, lalu lihat prediksi beserta alur keputusan model yang bisa dibaca manusia. Model dilatih pada {{ "{:,}".format(m.n_rows).replace(",", ".") }} data karyawan.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="{{ url_for('predict') }}">Mulai Prediksi</a>
+        <a class="btn btn-outline" href="{{ url_for('analysis') }}">Lihat Analisis Model</a>
+      </div>
+    </div>
+    <div class="hero-card reveal">
+      <p class="muted">Performa Model B (pruned) pada data uji</p>
+      <div class="big-stats">
+        <div><strong data-count="{{ (m.B.acc_test * 100)|round(1) }}" data-suffix="%">0</strong><span>Akurasi</span></div>
+        <div><strong data-count="{{ (m.B.recall_resign * 100)|round(1) }}" data-suffix="%">0</strong><span>Recall Resign</span></div>
+        <div><strong data-count="{{ (m.B.auc * 100)|round(0) }}" data-suffix="">0</strong><span>AUC (x100)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Bagaimana cara kerjanya?</h2>
+    <div class="grid-3">
+      <article class="card reveal"><div class="icon-badge b-indigo">1</div><h3>Isi Data</h3><p>Lengkapi formulir berisi profil, kompensasi, riwayat karier, dan tingkat kepuasan karyawan.</p></article>
+      <article class="card reveal"><div class="icon-badge b-teal">2</div><h3>Model Memutuskan</h3><p>Decision Tree mengajukan serangkaian pertanyaan jika-maka seperti flowchart sampai tiba di sebuah daun.</p></article>
+      <article class="card reveal"><div class="icon-badge b-amber">3</div><h3>Baca Alasannya</h3><p>Hasil ditampilkan dengan probabilitas dan jalur keputusan, jadi kamu tahu mengapa model memilih hasil itu.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <h2 class="section-title">Ringkasan Dataset</h2>
+    <div class="grid-4">
+      <div class="stat reveal"><strong>{{ "{:,}".format(m.n_rows).replace(",", ".") }}</strong><span>Baris data</span></div>
+      <div class="stat reveal"><strong>{{ m.n_features }}</strong><span>Fitur setelah encoding</span></div>
+      <div class="stat reveal"><strong>{{ m.class_no }}</strong><span>Bertahan (No)</span></div>
+      <div class="stat reveal"><strong>{{ m.class_yes }}</strong><span>Resign (Yes)</span></div>
+    </div>
+    <p class="note">Kelas tidak seimbang: hanya sekitar {{ (m.class_yes / m.n_rows * 100)|round(1) }}% karyawan yang resign, sehingga recall kelas Resign lebih penting daripada akurasi saja.</p>
+  </div>
+</section>
+{% endblock %}

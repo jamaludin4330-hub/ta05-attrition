@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Analisis Model{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1>Analisis Model</h1>
+    <p class="lead">Perbandingan Model A (tanpa batas kedalaman) dan Model B (di-pruning).</p>
+  </div>
+</section>
+
+<section class="section tight">
+  <div class="container">
+    <h2 class="section-title">Perbandingan Model A dan B</h2>
+    <div class="table-wrap reveal">
+      <table class="table">
+        <thead><tr><th>Metrik</th><th>Model A (overfit)</th><th>Model B (pruned)</th></tr></thead>
+        <tbody>
+          <tr><td>Pengaturan</td><td>max_depth=None</td><td>max_depth=4, min_samples_leaf=10, class_weight=balanced</td></tr>
+          <tr><td>Kedalaman pohon</td><td>{{ m.A.depth }}</td><td>{{ m.B.depth }}</td></tr>
+          <tr><td>Jumlah daun</td><td>{{ m.A.leaves }}</td><td>{{ m.B.leaves }}</td></tr>
+          <tr><td>Akurasi data latih</td><td class="bad">{{ (m.A.acc_train * 100)|round(1) }}%</td><td>{{ (m.B.acc_train * 100)|round(1) }}%</td></tr>
+          <tr><td>Akurasi data uji</td><td>{{ (m.A.acc_test * 100)|round(1) }}%</td><td>{{ (m.B.acc_test * 100)|round(1) }}%</td></tr>
+          <tr><td>Selisih latih - uji</td><td class="bad">{{ ((m.A.acc_train - m.A.acc_test) * 100)|round(1) }} poin</td><td class="good">{{ ((m.B.acc_train - m.B.acc_test) * 100)|round(1) }} poin</td></tr>
+          <tr><td>Precision (Resign)</td><td>{{ m.A.precision_resign }}</td><td>{{ m.B.precision_resign }}</td></tr>
+          <tr><td>Recall (Resign)</td><td>{{ m.A.recall_resign }}</td><td class="good">{{ m.B.recall_resign }}</td></tr>
+          <tr><td>F1-score (Resign)</td><td>{{ m.A.f1_resign }}</td><td class="good">{{ m.B.f1_resign }}</td></tr>
+          <tr><td>AUC</td><td>{{ m.A.auc }}</td><td class="good">{{ m.B.auc }}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Model A mencapai akurasi latih {{ (m.A.acc_train * 100)|round(0)|int }}% tetapi turun jauh pada data uji karena ia menghafal data latih (overfitting). Model B lebih sederhana, selisih latih-ujinya kecil, dan mampu menemukan lebih banyak karyawan yang benar-benar resign.</p>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <h2 class="section-title">Visualisasi</h2>
+    <div class="grid-2">
+      <figure class="card fig reveal"><img src="{{ url_for('static', filename='img/target_distribution.png') }}" alt="Distribusi kelas Attrition"><figcaption>Distribusi kelas target: kelas Yes jauh lebih sedikit dari No.</figcaption></figure>
+      <figure class="card fig reveal"><img src="{{ url_for('static', filename='img/confusion_matrix.png') }}" alt="Confusion matrix Model A dan B"><figcaption>Confusion matrix Model A dan Model B.</figcaption></figure>
+      <figure class="card fig reveal"><img src="{{ url_for('static', filename='img/feature_importance.png') }}" alt="Feature importance"><figcaption>Fitur terpenting menurut Model B.</figcaption></figure>
+      <figure class="card fig reveal"><img src="{{ url_for('static', filename='img/roc_curve.png') }}" alt="Kurva ROC"><figcaption>Kurva ROC kedua model.</figcaption></figure>
+    </div>
+    <figure class="card fig reveal wide"><img src="{{ url_for('static', filename='img/decision_tree_b.png') }}" alt="Pohon keputusan Model B"><figcaption>Pohon keputusan Model B (geser ke samping di layar kecil).</figcaption></figure>
+  </div>
+</section>
+
+<section class="section tight">
+  <div class="container">
+    <h2 class="section-title">Fitur Paling Berpengaruh</h2>
+    <div class="bars">
+      {% set top = m.importances[0].nilai %}
+      {% for f in m.importances %}
+      <div class="bar-row reveal"><span class="bar-name">{{ f.fitur }}</span><div class="bar-track"><div class="bar-fill" data-width="{{ (f.nilai / top * 100)|round(1) }}"></div></div><span class="bar-val">{{ f.nilai }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

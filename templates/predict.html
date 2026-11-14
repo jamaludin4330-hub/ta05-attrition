@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Prediksi{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <h1>Prediksi Pengunduran Diri</h1>
+    <p class="lead">Isi data karyawan di bawah ini. Semua kolom wajib diisi.</p>
+  </div>
+</section>
+
+<section class="section tight">
+  <div class="container predict-grid">
+    <form method="post" action="{{ url_for('predict') }}" class="card form-card" id="predictForm" novalidate>
+      {% if errors %}<div class="alert alert-error" role="alert">Ada {{ errors|length }} isian yang perlu diperbaiki.</div>{% endif %}
+      {% for g in fields %}
+      <fieldset class="group">
+        <legend><span class="g-icon">{{ g.icon }}</span> {{ g.group }}</legend>
+        <div class="field-grid">
+          {% for it in g['items'] %}
+          <div class="field {{ 'has-error' if errors.get(it.name) }}">
+            <label for="{{ it.name }}">{{ it.label }}</label>
+            {% if it.kind == 'number' %}
+              <input type="number" id="{{ it.name }}" name="{{ it.name }}" min="{{ it.min }}" max="{{ it.max }}" step="1" value="{{ values[it.name] }}" required>
+            {% else %}
+              <select id="{{ it.name }}" name="{{ it.name }}" required>
+                {% for val, text in it.options %}<option value="{{ val }}" {{ 'selected' if values[it.name] == val }}>{{ text }}</option>{% endfor %}
+              </select>
+            {% endif %}
+            {% if it.hint %}<small class="hint">{{ it.hint }}</small>{% endif %}
+            {% if errors.get(it.name) %}<small class="error">{{ errors[it.name] }}</small>{% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+      {% endfor %}
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-label">Prediksi Sekarang</span><span class="spinner" hidden></span></button>
+        <a class="btn btn-ghost" href="{{ url_for('predict') }}">Reset</a>
+      </div>
+    </form>
+
+    <aside class="result-col" id="resultCol">
+      {% if result %}
+      <div class="card result {{ 'is-resign' if result.resign else 'is-stay' }}" id="resultCard">
+        <span class="pill">{{ 'Risiko tinggi' if result.resign else 'Risiko rendah' }}</span>
+        <h2>{{ 'Cenderung RESIGN' if result.resign else 'Cenderung BERTAHAN' }}</h2>
+        <p class="muted">Probabilitas resign menurut model</p>
+        <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ result.proba }}">
+          <div class="meter-fill" data-width="{{ result.proba }}"></div>
+        </div>
+        <p class="proba">{{ result.proba }}%</p>
+        <h3>Jalur keputusan pohon</h3>
+        <ol class="path">
+          {% for s in result.path %}<li>{{ s }}</li>{% endfor %}
+          <li class="leaf">Hasil: {{ 'Resign' if result.resign else 'Bertahan' }}</li>
+        </ol>
+        <p class="note small">Prediksi berasal dari pola data historis dan bukan keputusan final. Gunakan sebagai bahan diskusi.</p>
+      </div>
+      {% else %}
+      <div class="card result empty">
+        <div class="empty-icon">🌳</div>
+        <h3>Hasil akan tampil di sini</h3>
+        <p class="muted">Isi formulir lalu tekan <strong>Prediksi Sekarang</strong> untuk melihat prediksi dan alur keputusan model.</p>
+      </div>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}
